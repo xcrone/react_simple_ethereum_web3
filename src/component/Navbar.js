@@ -1,4 +1,5 @@
 import ConnectButton from './ConnectButton'
+import ConnectButton2 from './ConnectButton2'
 
 const Navbar = ({
     title
@@ -8,6 +9,7 @@ const Navbar = ({
             <div className="container-fluid">
                 <a className="navbar-brand" href="#">{title}</a>
                 <ConnectButton />
+                <ConnectButton2 />
             </div>
         </nav>
     )
