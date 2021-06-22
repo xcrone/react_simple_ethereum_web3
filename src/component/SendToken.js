@@ -2,7 +2,7 @@ import Wallet from "./Wallet"
 import { useState } from "react"
 
 const SendToken = () => {
-    let {status, account} = Wallet.Metamask();
+    let {status, account} = Wallet.Data();
     let [contract, setContract] = useState(null);
     let [tokenInfo, setTokenInfo] = useState({
         name: null,

@@ -1,7 +1,8 @@
 import Wallet from "./Wallet"
 
 const ConnectButton = () => {
-    const {connect, status, account} = Wallet.Metamask();
+    const {status, account} = Wallet.Data();
+    const connect = Wallet.Connect(0);
 
     if (status === "unavailable") return <div>MetaMask not available</div>
 

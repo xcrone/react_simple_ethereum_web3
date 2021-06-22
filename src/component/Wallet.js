@@ -7,9 +7,17 @@ const apiLink = "https://api-testnet.bscscan.com/api"
 const apiKey = "MAMMQS6CJJ43FF8CR9WX54P1EUAUA56J2D"
 const web3 = new Web3(window.ethereum);
 
-const Metamask = () => {
-    const { connect, status, chainId, account } = useMetaMask()
-    return { connect, status, chainId, account }
+const Data = () => {
+    const { status, chainId, account } = useMetaMask()
+    return { status, chainId, account }
+}
+
+const Connect = (wallet_id) => {
+    const { connect } = useMetaMask()
+    if(wallet_id === 0) {
+        return connect;
+    }
+    return null;
 }
 
 const ShortAddress = (_address, _option = {uppercase: false, middle: false}) => {
@@ -127,7 +135,8 @@ const TokenTransfer = async (_contract = null, _data = {from: null, to: null, am
 }
 
 export default {
-    Metamask,
+    Data,
+    Connect,
     ShortAddress,
     EpochToTimeAgo,
     WeiToEther,
