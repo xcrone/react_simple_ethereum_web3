@@ -5,7 +5,7 @@ import timeAgo from 'time-ago'
 
 const apiLink = "https://api-testnet.bscscan.com/api"
 const apiKey = "MAMMQS6CJJ43FF8CR9WX54P1EUAUA56J2D"
-const web3 = new Web3(window.ethereum);
+window.web3 = new Web3(window.ethereum);
 
 const Data = () => {
     const { status, chainId, account } = useMetaMask()
@@ -46,17 +46,17 @@ const EpochToTimeAgo = (_epoch) => {
 }
 
 const WeiToEther = (_amount = 0) => {
-    return web3.utils.fromWei(_amount, 'ether');
+    return window.web3.utils.fromWei(_amount, 'ether');
 }
 
 const WeiToGwei = (_amount = 0) => {
-    return web3.utils.fromWei(_amount, 'Gwei');
+    return window.web3.utils.fromWei(_amount, 'Gwei');
 }
 
 const TransferETH = async (_from, _to, _amount) => {
     // should make validate _amount is number
-    _amount = web3.utils.toWei(_amount, 'ether');
-    web3.eth.sendTransaction({
+    _amount = window.web3.utils.toWei(_amount, 'ether');
+    window.web3.eth.sendTransaction({
         from: _from,
         to: _to,
         value: _amount,
@@ -95,7 +95,7 @@ const GetContract = async (_address = null, _abi = []) => {
             if(typeof(_abi) === typeof("")) {
                 _abi = JSON.parse(_abi);
             }
-            _contract = new web3.eth.Contract(_abi, _address);
+            _contract = new window.web3.eth.Contract(_abi, _address);
             return _contract;
         }else {
             return null
@@ -128,7 +128,7 @@ const TokenTransfer = async (_contract = null, _data = {from: null, to: null, am
         let _from = _data.from;
         let _to = _data.to;
         let _amount = _data.amount;
-        _amount = web3.utils.toWei(_amount, 'ether');
+        _amount = window.web3.utils.toWei(_amount, 'ether');
         await _contract.methods.transfer(_to, _amount).send({
             from: _from
         });
