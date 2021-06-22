@@ -1,6 +1,4 @@
 import {useMetaMask} from 'metamask-react';
-import WalletConnect from "@walletconnect/client";
-import QRCodeModal from "@walletconnect/qrcode-modal";
 import Web3 from 'web3'
 import axios from 'axios'
 import timeAgo from 'time-ago'
@@ -8,10 +6,6 @@ import timeAgo from 'time-ago'
 const apiLink = "https://api-testnet.bscscan.com/api"
 const apiKey = "MAMMQS6CJJ43FF8CR9WX54P1EUAUA56J2D"
 const web3 = new Web3(window.ethereum);
-const connector = new WalletConnect({
-    bridge: "https://bridge.walletconnect.org", // Required
-    qrcodeModal: QRCodeModal,
-});
 
 const Data = () => {
     const { status, chainId, account } = useMetaMask()
@@ -21,39 +15,7 @@ const Data = () => {
 const Connect = (wallet_id) => {
     const { connect } = useMetaMask()
     const connect2 = () => {        
-        // Check if connection is already established
-        if (!connector.connected) {
-            // create new session
-            connector.createSession();
-        }
-
-        // Subscribe to connection events
-        connector.on("connect", (error, payload) => {
-            if (error) {
-            throw error;
-            }
-        
-            // Get provided accounts and chainId
-            const { accounts, chainId } = payload.params[0];
-            console.log({ accounts, chainId })
-        });
-
-        connector.on("session_update", (error, payload) => {
-            if (error) {
-            throw error;
-            }
-        
-            // Get updated accounts and chainId
-            const { accounts, chainId } = payload.params[0];
-        });
-        
-        connector.on("disconnect", (error, payload) => {
-            if (error) {
-            throw error;
-            }
-        
-            // Delete connector
-        });
+        console.log("connect");
     }
 
     if(wallet_id === 0) { return connect; }
