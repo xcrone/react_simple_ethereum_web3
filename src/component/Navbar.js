@@ -9,7 +9,7 @@ const Navbar = ({title}) => {
     const disconnect = async () => {
         Wallets.onDisconnect().then((res) => setData(res));
     }
-    const button = data.status ? (
+    const button = data && data.status ? (
         <button className="btn btn-primary" onClick={disconnect}>
             {data.account}
         </button>
