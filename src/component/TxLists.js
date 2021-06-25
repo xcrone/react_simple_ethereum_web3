@@ -2,8 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import Wallets from "../Wallets"
 
 const TxLists = () => {
-    const {data} = useContext(Wallets.WalletsContext);
-    let account = data.account;
+    const {account} = useContext(Wallets.WalletsContext);
     let [txs, setTxs] = useState([]);
 
     useEffect( () => {

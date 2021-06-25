@@ -10,12 +10,10 @@ let provider;
 const apiLink = "https://api-testnet.bscscan.com/api"
 const apiKey = "MAMMQS6CJJ43FF8CR9WX54P1EUAUA56J2D"
 window.web3 = new Web3(window.ethereum);
-export let data = {
-  account: null,
-  chainId: null,
-  status: false,
-  balance: 0,
-};
+export let account = null;
+export let chainId = null;
+export let status = false;
+export let balance = 0;
 const WalletsContext = createContext({});
 
 function init() {
@@ -47,37 +45,39 @@ async function fetchAccountData() {
     if(provider) {
       const web3 = new Web3(provider);
       const accounts = await web3.eth.getAccounts();
-      data = {
-        account: accounts[0],
-        chainId: await web3.eth.getChainId(),
-        status: true,
-        balance: await web3.eth.getBalance(accounts[0]),
-      };
-      return data;
+      account = accounts[0];
+      chainId = await web3.eth.getChainId();
+      status = true;
+      balance = await web3.eth.getBalance(accounts[0]);
+      return {account, chainId, status, balance};
     }else {
       provider = null;
-      data = {
-        account: null,
-        chainId: null,
-        status: false,
-        balance: 0,
-      };
-      return data;
+      account = null;
+      chainId = null;
+      status = false;
+      balance = 0;
+      return {account, chainId, status, balance};
     }
   } catch (error) {
     provider = null;
-    data = {
-      account: null,
-      chainId: null,
-      status: false,
-      balance: 0,
-    };
-    return data;
+    account = null;
+    chainId = null;
+    status = false;
+    balance = 0;
+    return {account, chainId, status, balance};
   }
 }
 
 async function refreshAccountData() {
-  return await fetchAccountData(provider);
+  try {
+    return await fetchAccountData(provider);
+  } catch (error) {
+    account = null;
+    chainId = null;
+    status = false;
+    balance = 0;
+    return {account, chainId, status, balance};
+  }
 }
 
 const onConnect = async () => {
@@ -104,34 +104,44 @@ const onConnect = async () => {
 }
 
 const onDisconnect = async () => {
-  if(provider && provider._events.close[0]) { await provider._events.close[0](); }
-  if(provider && provider.connected) { await provider._events.disconnect(); }
-  await web3Modal.clearCachedProvider();
-  provider = null;
-  data = {
-    account: null,
-    chainId: null,
-    status: false,
-    balance: 0,
-  };
-  return data;
+  try {
+    if(provider && provider._events.close[0]) { await provider._events.close[0](); }
+    if(provider && provider.connected) { await provider._events.disconnect(); }
+    await web3Modal.clearCachedProvider();
+    provider = null;
+    account = null;
+    chainId = null;
+    status = false;
+    balance = 0;
+    return {account, chainId, status, balance};
+  } catch (error) {
+    account = null;
+    chainId = null;
+    status = false;
+    balance = 0;
+    return {account, chainId, status, balance};
+  }
 }
 
 const ShortAddress = (_address, _option = {uppercase: false, middle: false}) => {
-  _address = _address.toString();
-  let showAddress;
-  if(_option.middle === true) {
-      showAddress = _address.substring(0, 6)
-      showAddress = showAddress + "..."
-      showAddress = showAddress + _address.substring((_address.length - 4), _address.length)
-  }else {
-      showAddress = _address.substring(0, 22)
-      showAddress = showAddress + "..."
+  try {
+    _address = _address.toString();
+    let showAddress;
+    if(_option.middle === true) {
+        showAddress = _address.substring(0, 6)
+        showAddress = showAddress + "..."
+        showAddress = showAddress + _address.substring((_address.length - 4), _address.length)
+    }else {
+        showAddress = _address.substring(0, 22)
+        showAddress = showAddress + "..."
+    }
+    if(_option.uppercase === true) {
+        showAddress = showAddress.toUpperCase()
+    }
+    return showAddress;
+  } catch (error) {
+    return _address;
   }
-  if(_option.uppercase === true) {
-      showAddress = showAddress.toUpperCase()
-  }
-  return showAddress;
 }
 
 const EpochToTimeAgo = (_epoch) => {
@@ -243,7 +253,10 @@ window.addEventListener('load', async () => init() );
 
 export default {
   WalletsContext, 
-  data, 
+  account, 
+  chainId,
+  status,
+  balance,
   onConnect, 
   onDisconnect,
   ShortAddress,

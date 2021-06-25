@@ -2,7 +2,7 @@ import { useState, useContext } from "react"
 import Wallets from "../Wallets"
 
 const SendToken = () => {
-    const {data} = useContext(Wallets.WalletsContext);
+    const {account, status} = useContext(Wallets.WalletsContext);
     let [contract, setContract] = useState(null);
     let [tokenInfo, setTokenInfo] = useState({
         name: null,
@@ -29,7 +29,7 @@ const SendToken = () => {
 
     const transfer = async () => {
         Wallets.TokenTransfer(contract, {
-            from: data.account,
+            from: account,
             to: _to.value,
             amount: _amount.value,
         }).then(() => {
@@ -40,7 +40,7 @@ const SendToken = () => {
     }
 
     let button;
-    if(tokenInfo.name !== null && data && data.status) {
+    if(tokenInfo.name !== null && status) {
         button = (<button className="btn btn-primary" onClick={transfer}>SEND</button>);
     }else {
         button = (<button className="btn btn-primary" disabled>SEND</button>);

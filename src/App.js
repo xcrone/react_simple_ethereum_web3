@@ -7,9 +7,15 @@ import TxLists from './component/TxLists'
 import Wallets from './Wallets'
 
 function App() {
-    let [data, setData] = useState(Wallets.data);
+    let [account, setAccount] = useState(null);
+    let [status, setStatus] = useState(null);
+    let [chainId, setChainId] = useState(null);
+    let [balance, setBalance] = useState(null);
+    let data = {
+        account, status, chainId, balance, setAccount, setStatus, setChainId, setBalance
+    }
     return ( 
-        <Wallets.WalletsContext.Provider value={{data, setData}}>
+        <Wallets.WalletsContext.Provider value={data}>
             <Navbar title="Web3" />
             <div className="container pt-5">
                 <div className="row mb-5">

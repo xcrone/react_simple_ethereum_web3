@@ -2,10 +2,7 @@ import { useContext } from "react"
 import Wallets from "../Wallets"
 
 const Info = () => {
-    const {data} = useContext(Wallets.WalletsContext);
-    console.log("Wallet: ", data);
-    let account = data.account;
-    let balance = data.balance;
+    const {account, balance, chainId} = useContext(Wallets.WalletsContext);
     return (
         <div className="card">
             <div className="card-header">Info</div>
@@ -13,6 +10,8 @@ const Info = () => {
                 Account: {account}
                 <br />
                 Balance: {Wallets.WeiToEther(balance)}
+                <br />
+                Chain ID: {chainId}
             </div>
         </div>
     )
