@@ -8,8 +8,15 @@ const Navbar = ({
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container-fluid">
                 <a className="navbar-brand" href="#">{title}</a>
-                <ConnectButton />
-                <ConnectButton2 />
+                {/* <ConnectButton />
+                <ConnectButton2 /> */}
+
+                <button className="btn btn-primary" id="btn-connect">
+                    Connect wallet
+                </button>
+                <button className="btn btn-primary" id="btn-disconnect">
+                    Disconnect wallet
+                </button>
             </div>
         </nav>
     )

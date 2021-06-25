@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {MetaMaskProvider} from 'metamask-react';
+import './Wallets';
 
 ReactDOM.render(
   <React.StrictMode>
