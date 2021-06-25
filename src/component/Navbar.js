@@ -9,6 +9,8 @@ const Navbar = ({title}) => {
             setStatus(res.status);
             setChainId(res.chainId);
             setBalance(res.balance);
+        }).catch(() => {
+            console.log("cancel");
         });
     }
     const disconnect = async () => {
