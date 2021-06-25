@@ -1,16 +1,16 @@
+import { createContext } from 'react'
 import Web3 from 'web3';
 import Web3Modal from 'web3modal';
 import WalletConnectProvider from "@walletconnect/web3-provider";
 
 let web3Modal
 let provider;
-let data = {
+export let data = {
   account: null,
   chainId: null,
   status: false,
 };
-let btnConnect = "#btn-connect";
-let btnDisconnect = "#btn-disconnect";
+const WalletsContext = createContext({});
 
 function init() {
   const providerOptions = {
@@ -38,13 +38,13 @@ async function fetchAccountData() {
   try {
     if(provider) {
       const web3 = new Web3(provider);
+      const accounts = await web3.eth.getAccounts();
       data = {
-        account: await web3.eth.getAccounts()[0],
+        account: accounts[0],
         chainId: await web3.eth.getChainId(),
         status: true,
       };
-      document.querySelector(btnConnect).style.display = "none";
-      document.querySelector(btnDisconnect).style.display = "block";
+      return data;
     }else {
       provider = null;
       data = {
@@ -52,8 +52,7 @@ async function fetchAccountData() {
         chainId: null,
         status: false,
       };
-      document.querySelector(btnConnect).style.display = "block";
-      document.querySelector(btnDisconnect).style.display = "none";
+      return data;
     }
   } catch (error) {
     provider = null;
@@ -62,16 +61,15 @@ async function fetchAccountData() {
       chainId: null,
       status: false,
     };
-    document.querySelector(btnConnect).style.display = "block";
-    document.querySelector(btnDisconnect).style.display = "none";
+    return data;
   }
 }
 
 async function refreshAccountData() {
-  await fetchAccountData(provider);
+  return await fetchAccountData(provider);
 }
 
-async function onConnect() {
+const onConnect = async () => {
   try {
     provider = await web3Modal.connect();
   } catch(e) {
@@ -91,10 +89,10 @@ async function onConnect() {
     fetchAccountData();
   });
 
-  await refreshAccountData();
+  return await refreshAccountData();
 }
 
-async function onDisconnect() {
+const onDisconnect = async () => {
   if(provider && provider._events.close[0]) { await provider._events.close[0](); }
   if(provider && provider.connected) { await provider._events.disconnect(); }
   await web3Modal.clearCachedProvider();
@@ -104,12 +102,9 @@ async function onDisconnect() {
     chainId: null,
     status: false,
   };
-  document.querySelector(btnConnect).style.display = "block";
-  document.querySelector(btnDisconnect).style.display = "none";
+  return data;
 }
 
-window.addEventListener('load', async () => {
-  init();
-  document.querySelector(btnConnect).addEventListener("click", onConnect);
-  document.querySelector(btnDisconnect).addEventListener("click", onDisconnect);
-});
+window.addEventListener('load', async () => init() );
+
+export default {WalletsContext, data, onConnect, onDisconnect}
