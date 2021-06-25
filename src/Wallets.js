@@ -14,6 +14,7 @@ export let data = {
   account: null,
   chainId: null,
   status: false,
+  balance: 0,
 };
 const WalletsContext = createContext({});
 
@@ -50,6 +51,7 @@ async function fetchAccountData() {
         account: accounts[0],
         chainId: await web3.eth.getChainId(),
         status: true,
+        balance: await web3.eth.getBalance(accounts[0]),
       };
       return data;
     }else {
@@ -58,6 +60,7 @@ async function fetchAccountData() {
         account: null,
         chainId: null,
         status: false,
+        balance: 0,
       };
       return data;
     }
@@ -67,6 +70,7 @@ async function fetchAccountData() {
       account: null,
       chainId: null,
       status: false,
+      balance: 0,
     };
     return data;
   }
@@ -108,6 +112,7 @@ const onDisconnect = async () => {
     account: null,
     chainId: null,
     status: false,
+    balance: 0,
   };
   return data;
 }
@@ -135,11 +140,19 @@ const EpochToTimeAgo = (_epoch) => {
 }
 
 const WeiToEther = (_amount = 0) => {
-  return window.web3.utils.fromWei(_amount, 'ether');
+  try {
+    return window.web3.utils.fromWei(_amount, 'ether');
+  } catch (error) {
+    return 0;
+  }
 }
 
 const WeiToGwei = (_amount = 0) => {
-  return window.web3.utils.fromWei(_amount, 'Gwei');
+  try {
+    return window.web3.utils.fromWei(_amount, 'Gwei');
+  } catch (error) {
+    return 0;
+  }
 }
 
 const TransferETH = async (_from, _to, _amount) => {
