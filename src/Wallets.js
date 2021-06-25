@@ -8,6 +8,8 @@ const evmChains = window.evmChains;
 let web3Modal
 let provider;
 let selectedAccount;
+let btnConnect = "#btn-connect";
+let btnDisconnect = "#btn-disconnect";
 
 function init() {
   const providerOptions = {
@@ -38,19 +40,19 @@ async function fetchAccountData() {
       const chainId = await web3.eth.getChainId();
       const accounts = await web3.eth.getAccounts();
       selectedAccount = accounts[0];
-      document.querySelector("#btn-connect").style.display = "none";
-      document.querySelector("#btn-disconnect").style.display = "block";
+      document.querySelector(btnConnect).style.display = "none";
+      document.querySelector(btnDisconnect).style.display = "block";
     }else {
       provider = null;
       selectedAccount = null;
-      document.querySelector("#btn-connect").style.display = "block";
-      document.querySelector("#btn-disconnect").style.display = "none";
+      document.querySelector(btnConnect).style.display = "block";
+      document.querySelector(btnDisconnect).style.display = "none";
     }
   } catch (error) {
     provider = null;
     selectedAccount = null;
-    document.querySelector("#btn-connect").style.display = "block";
-    document.querySelector("#btn-disconnect").style.display = "none";
+    document.querySelector(btnConnect).style.display = "block";
+    document.querySelector(btnDisconnect).style.display = "none";
   }
 }
 
@@ -87,12 +89,12 @@ async function onDisconnect() {
   await web3Modal.clearCachedProvider();
   provider = null;
   selectedAccount = null;
-  document.querySelector("#btn-connect").style.display = "block";
-  document.querySelector("#btn-disconnect").style.display = "none";
+  document.querySelector(btnConnect).style.display = "block";
+  document.querySelector(btnDisconnect).style.display = "none";
 }
 
 window.addEventListener('load', async () => {
   init();
-  document.querySelector("#btn-connect").addEventListener("click", onConnect);
-  document.querySelector("#btn-disconnect").addEventListener("click", onDisconnect);
+  document.querySelector(btnConnect).addEventListener("click", onConnect);
+  document.querySelector(btnDisconnect).addEventListener("click", onDisconnect);
 });
