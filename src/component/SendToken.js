@@ -40,7 +40,7 @@ const SendToken = () => {
     }
 
     let button;
-    if(tokenInfo.name !== null && data.status === "connected") {
+    if(tokenInfo.name !== null && data && data.status) {
         button = (<button className="btn btn-primary" onClick={transfer}>SEND</button>);
     }else {
         button = (<button className="btn btn-primary" disabled>SEND</button>);
