@@ -1,19 +1,19 @@
-import Wallet from "./Wallet"
+import { useContext } from "react"
+import Wallets from "../Wallets"
 
 const SendETH = () => {
-    let account = "";
-    let status = "";
+    const {data} = useContext(Wallets.WalletsContext);
     const _amount = document.getElementById('input_send_eth_amount');
     const _to = document.getElementById('input_send_eth_to');
     const transfer = async () => {
-        Wallet.TransferETH(account, _to.value, _amount.value).then(() => {
+        Wallets.TransferETH(data.account, _to.value, _amount.value).then(() => {
             _amount.value = ""
             _to.value = ""
         });
     }
 
     let button;
-    if (status === "connected") {
+    if (data.status) {
         button = <button className="btn btn-primary" onClick={transfer}>SEND</button>
     }else {
         button = <button className="btn btn-primary" disabled>SEND</button>

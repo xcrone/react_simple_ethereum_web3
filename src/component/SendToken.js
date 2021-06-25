@@ -1,9 +1,8 @@
-import Wallet from "./Wallet"
-import { useState } from "react"
+import { useState, useContext } from "react"
+import Wallets from "../Wallets"
 
 const SendToken = () => {
-    let account = "";
-    let status = "";
+    const {data} = useContext(Wallets.WalletsContext);
     let [contract, setContract] = useState(null);
     let [tokenInfo, setTokenInfo] = useState({
         name: null,
@@ -14,9 +13,9 @@ const SendToken = () => {
 
     const getTokenInfo = async (event) => {
         let tokenAddress = event.target.value;
-        let c = await Wallet.GetContract(tokenAddress);
+        let c = await Wallets.GetContract(tokenAddress);
         setContract(c);
-        Wallet.TokenInfo(c).then((_tokenInfo) => {
+        Wallets.TokenInfo(c).then((_tokenInfo) => {
             if(_tokenInfo != null) {
                 setTokenInfo(_tokenInfo);
             }else {
@@ -29,8 +28,8 @@ const SendToken = () => {
     }
 
     const transfer = async () => {
-        Wallet.TokenTransfer(contract, {
-            from: account,
+        Wallets.TokenTransfer(contract, {
+            from: data.account,
             to: _to.value,
             amount: _amount.value,
         }).then(() => {
@@ -41,7 +40,7 @@ const SendToken = () => {
     }
 
     let button;
-    if(tokenInfo.name !== null && status === "connected") {
+    if(tokenInfo.name !== null && data.status === "connected") {
         button = (<button className="btn btn-primary" onClick={transfer}>SEND</button>);
     }else {
         button = (<button className="btn btn-primary" disabled>SEND</button>);
