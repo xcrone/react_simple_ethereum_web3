@@ -3,14 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {MetaMaskProvider} from 'metamask-react';
 import './Wallets';
 
 ReactDOM.render(
   <React.StrictMode>
-    <MetaMaskProvider>
-      <App />
-    </MetaMaskProvider>
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );

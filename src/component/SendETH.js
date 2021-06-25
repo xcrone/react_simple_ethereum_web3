@@ -1,7 +1,8 @@
 import Wallet from "./Wallet"
 
 const SendETH = () => {
-    const {status, account} = Wallet.Data();
+    let account = "";
+    let status = "";
     const _amount = document.getElementById('input_send_eth_amount');
     const _to = document.getElementById('input_send_eth_to');
     const transfer = async () => {

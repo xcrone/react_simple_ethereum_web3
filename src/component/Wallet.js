@@ -1,5 +1,3 @@
-import {useMetaMask} from 'metamask-react';
-import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3 from 'web3'
 import axios from 'axios'
 import timeAgo from 'time-ago'
@@ -7,49 +5,6 @@ import timeAgo from 'time-ago'
 const apiLink = "https://api-testnet.bscscan.com/api"
 const apiKey = "MAMMQS6CJJ43FF8CR9WX54P1EUAUA56J2D"
 window.web3 = new Web3(window.ethereum);
-const provider = new WalletConnectProvider({
-    infuraId: "847d1860447a4c31a68d79c87b461bd1",
-    bridge: 'https://pancakeswap.bridge.walletconnect.org/',
-    qrcode: true,
-});
-provider.on("accountsChanged", (accounts: string[]) => {
-    console.log(accounts);
-});
-provider.on("chainChanged", (chainId: number) => {
-    console.log(chainId);
-});
-provider.on("disconnect", (code: number, reason: string) => {
-    console.log(code, reason);
-});
-
-const Data = () => {
-    const { status, chainId, account } = useMetaMask()
-    return { status, chainId, account }
-}
-
-const Connect = (wallet_id) => {
-    const { connect } = useMetaMask()
-    const connect2 = async () => {
-        provider.enable().then(() => {
-            window.web3 = new Web3(provider);
-        });
-    }
-    if(wallet_id === 0) { return connect; }
-    if(wallet_id === 1) { return connect2; }
-    return null;
-}
-
-const Disconnect = (wallet_id) => {
-    const disconnect = () => null;
-    const disconnect2 = async () => {
-        provider.disconnect().then(() => {
-            window.web3 = new Web3(window.ethereum);
-        });
-    }
-    if(wallet_id === 0) { return disconnect; }
-    if(wallet_id === 1) { return disconnect2; }
-    return null;
-}
 
 const ShortAddress = (_address, _option = {uppercase: false, middle: false}) => {
     _address = _address.toString();
@@ -166,9 +121,6 @@ const TokenTransfer = async (_contract = null, _data = {from: null, to: null, am
 }
 
 export default {
-    Data,
-    Connect,
-    Disconnect,
     ShortAddress,
     EpochToTimeAgo,
     WeiToEther,

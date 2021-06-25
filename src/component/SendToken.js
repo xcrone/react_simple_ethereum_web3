@@ -2,7 +2,8 @@ import Wallet from "./Wallet"
 import { useState } from "react"
 
 const SendToken = () => {
-    let {status, account} = Wallet.Data();
+    let account = "";
+    let status = "";
     let [contract, setContract] = useState(null);
     let [tokenInfo, setTokenInfo] = useState({
         name: null,

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 
 const TxLists = () => {
     let [txs, setTxs] = useState([]);
-    let {account} = Wallet.Data();
+    let account = "";
 
     useEffect( () => {
         const getData = async () => {

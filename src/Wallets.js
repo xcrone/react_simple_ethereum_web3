@@ -32,11 +32,26 @@ function init() {
 }
 
 async function fetchAccountData() {
-
-  const web3 = new Web3(provider);
-  const chainId = await web3.eth.getChainId();
-  const accounts = await web3.eth.getAccounts();
-  selectedAccount = accounts[0];
+  try {
+    if(provider) {
+      const web3 = new Web3(provider);
+      const chainId = await web3.eth.getChainId();
+      const accounts = await web3.eth.getAccounts();
+      selectedAccount = accounts[0];
+      document.querySelector("#btn-connect").style.display = "none";
+      document.querySelector("#btn-disconnect").style.display = "block";
+    }else {
+      provider = null;
+      selectedAccount = null;
+      document.querySelector("#btn-connect").style.display = "block";
+      document.querySelector("#btn-disconnect").style.display = "none";
+    }
+  } catch (error) {
+    provider = null;
+    selectedAccount = null;
+    document.querySelector("#btn-connect").style.display = "block";
+    document.querySelector("#btn-disconnect").style.display = "none";
+  }
 }
 
 async function refreshAccountData() {
@@ -44,7 +59,6 @@ async function refreshAccountData() {
 }
 
 async function onConnect() {
-
   try {
     provider = await web3Modal.connect();
   } catch(e) {
@@ -68,17 +82,13 @@ async function onConnect() {
 }
 
 async function onDisconnect() {
-  if(provider && provider._events.close[0]) {
-    await provider._events.close[0]();
-    await web3Modal.clearCachedProvider();
-    provider = null;
-  }
-  if(provider && provider.connected) {
-    await provider._events.disconnect();
-    await web3Modal.clearCachedProvider();
-    provider = null;
-  }
+  if(provider && provider._events.close[0]) { await provider._events.close[0](); }
+  if(provider && provider.connected) { await provider._events.disconnect(); }
+  await web3Modal.clearCachedProvider();
+  provider = null;
   selectedAccount = null;
+  document.querySelector("#btn-connect").style.display = "block";
+  document.querySelector("#btn-disconnect").style.display = "none";
 }
 
 window.addEventListener('load', async () => {
