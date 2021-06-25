@@ -1,13 +1,14 @@
-"use strict";
-
 import Web3 from 'web3';
 import Web3Modal from 'web3modal';
 import WalletConnectProvider from "@walletconnect/web3-provider";
 
-const evmChains = window.evmChains;
 let web3Modal
 let provider;
-let selectedAccount;
+let data = {
+  account: null,
+  chainId: null,
+  status: false,
+};
 let btnConnect = "#btn-connect";
 let btnDisconnect = "#btn-disconnect";
 
@@ -37,20 +38,30 @@ async function fetchAccountData() {
   try {
     if(provider) {
       const web3 = new Web3(provider);
-      const chainId = await web3.eth.getChainId();
-      const accounts = await web3.eth.getAccounts();
-      selectedAccount = accounts[0];
+      data = {
+        account: await web3.eth.getAccounts()[0],
+        chainId: await web3.eth.getChainId(),
+        status: true,
+      };
       document.querySelector(btnConnect).style.display = "none";
       document.querySelector(btnDisconnect).style.display = "block";
     }else {
       provider = null;
-      selectedAccount = null;
+      data = {
+        account: null,
+        chainId: null,
+        status: false,
+      };
       document.querySelector(btnConnect).style.display = "block";
       document.querySelector(btnDisconnect).style.display = "none";
     }
   } catch (error) {
     provider = null;
-    selectedAccount = null;
+    data = {
+      account: null,
+      chainId: null,
+      status: false,
+    };
     document.querySelector(btnConnect).style.display = "block";
     document.querySelector(btnDisconnect).style.display = "none";
   }
@@ -88,7 +99,11 @@ async function onDisconnect() {
   if(provider && provider.connected) { await provider._events.disconnect(); }
   await web3Modal.clearCachedProvider();
   provider = null;
-  selectedAccount = null;
+  data = {
+    account: null,
+    chainId: null,
+    status: false,
+  };
   document.querySelector(btnConnect).style.display = "block";
   document.querySelector(btnDisconnect).style.display = "none";
 }
