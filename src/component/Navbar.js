@@ -9,13 +9,14 @@ const Navbar = ({title}) => {
     const disconnect = async () => {
         Wallets.onDisconnect().then((res) => setData(res));
     }
-    const button = data && data.status ? (
-        <button className="btn btn-primary" onClick={disconnect}>
-            {data.account}
-        </button>
-    ) : (
-        <button className="btn btn-primary" onClick={connect}>Connect wallet</button>
-    );
+    let button;
+    if(data && data.status) {
+        button = (<button className="btn btn-primary" onClick={disconnect}>
+            {Wallets.ShortAddress(data.account, {middle: true, uppercase: true})}
+        </button>);
+    }else {
+        button = (<button className="btn btn-primary" onClick={connect}>Connect wallet</button>)
+    }
 
     return ( 
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
