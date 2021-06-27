@@ -2,25 +2,13 @@ import { useContext } from "react"
 import Wallets from "../Wallets"
 
 const Navbar = ({title}) => {
-    const {account, status, setAccount, setStatus, setChainId, setBalance} = useContext(Wallets.WalletsContext);
-    const connect = async () => {
-        Wallets.onConnect().then((res) => {
-            setAccount(res.account);
-            setStatus(res.status);
-            setChainId(res.chainId);
-            setBalance(res.balance);
-        }).catch(() => {
-            console.log("cancel");
-        });
-    }
-    const disconnect = async () => {
-        Wallets.onDisconnect().then((res) => {
-            setAccount(res.account);
-            setStatus(res.status);
-            setChainId(res.chainId);
-            setBalance(res.balance);
-        });
-    }
+    const {account, status, setData} = useContext(Wallets.WalletsContext);
+    const connect = async () => Wallets.onConnect()
+        .then((res) => setData(res))
+        .catch(() => console.log("cancel"));
+    const disconnect = async () => Wallets.onDisconnect()
+        .then((res) => setData(res));
+        
     let button;
     if(status) {
         button = (<button className="btn btn-primary" onClick={disconnect}>

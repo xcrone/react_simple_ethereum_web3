@@ -11,8 +11,14 @@ function App() {
     let [status, setStatus] = useState(null);
     let [chainId, setChainId] = useState(null);
     let [balance, setBalance] = useState(null);
+    const setData = (data) => {
+        setAccount(data.account);
+        setStatus(data.status);
+        setChainId(data.chainId);
+        setBalance(data.balance);
+    }
     let data = {
-        account, status, chainId, balance, setAccount, setStatus, setChainId, setBalance
+        account, status, chainId, balance, setData
     }
     return ( 
         <Wallets.WalletsContext.Provider value={data}>
