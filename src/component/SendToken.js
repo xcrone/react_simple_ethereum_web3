@@ -3,7 +3,7 @@ import Wallets from "../Wallets"
 
 const SendToken = () => {
     const {account, status} = useContext(Wallets.WalletsContext);
-    let [contract, setContract] = useState(null);
+    let [address, setAddress] = useState(null);
     let [tokenInfo, setTokenInfo] = useState({
         name: null,
         symbol: null,
@@ -13,9 +13,10 @@ const SendToken = () => {
 
     const getTokenInfo = async (event) => {
         let tokenAddress = event.target.value;
-        let c = await Wallets.GetContract(tokenAddress);
-        setContract(c);
-        Wallets.TokenInfo(c).then((_tokenInfo) => {
+        setAddress(tokenAddress);
+        Wallets.tokenInfo({
+            address: tokenAddress
+        }).then((_tokenInfo) => {
             if(_tokenInfo != null) {
                 setTokenInfo(_tokenInfo);
             }else {
@@ -28,14 +29,14 @@ const SendToken = () => {
     }
 
     const transfer = async () => {
-        Wallets.TokenTransfer(contract, {
+        Wallets.tokenTransfer({
+            address: address,
             from: account,
             to: _to.value,
             amount: _amount.value,
         }).then(() => {
             _to.value = "";
             _amount.value = "";
-            console.log("Transfer Success");
         });
     }
 

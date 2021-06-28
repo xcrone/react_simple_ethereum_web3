@@ -9,7 +9,7 @@ const Info = () => {
             <div className="card-body">
                 Account: {account}
                 <br />
-                Balance: {Wallets.WeiToEther(balance)}
+                Balance: {Wallets.weiToEther(balance)}
                 <br />
                 Chain ID: {chainId}
             </div>

@@ -12,7 +12,7 @@ const Navbar = ({title}) => {
     let button;
     if(status) {
         button = (<button className="btn btn-primary" onClick={disconnect}>
-            {Wallets.ShortAddress(account, {middle: true, uppercase: true})}
+            {Wallets.shortAddress(account, {middle: true, uppercase: true})}
         </button>);
     }else {
         button = (<button className="btn btn-primary" onClick={connect}>Connect wallet</button>)

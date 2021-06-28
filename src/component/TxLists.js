@@ -7,7 +7,7 @@ const TxLists = () => {
 
     useEffect( () => {
         const getData = async () => {
-            const res = await Wallets.TxListing(account, {
+            const res = await Wallets.txListing(account, {
                 page: 1,
                 offset: 20
             }); 
@@ -44,7 +44,7 @@ const TxLists = () => {
                                 <tr key={tx.hash}>
                                     <td>
                                         <a target="_blank" href={"https://testnet.bscscan.com/tx/"+tx.hash}>
-                                            {Wallets.ShortAddress(tx.hash)}
+                                            {Wallets.shortAddress(tx.hash)}
                                         </a>
                                     </td>
                                     <td>
@@ -52,10 +52,10 @@ const TxLists = () => {
                                             {tx.blockNumber}
                                         </a>
                                     </td>
-                                    <td>{Wallets.EpochToTimeAgo(tx.timeStamp)}</td>
+                                    <td>{Wallets.epochToTimeAgo(tx.timeStamp)}</td>
                                     <td>
                                         <a target="_blank" href={"https://testnet.bscscan.com/address/"+tx.from}>
-                                            {tx.from === account ? "My Account" : Wallets.ShortAddress(tx.from)}
+                                            {tx.from === account ? "My Account" : Wallets.shortAddress(tx.from)}
                                         </a>
                                     </td>
                                     <td>
@@ -68,18 +68,18 @@ const TxLists = () => {
                                             </a>
                                         ) : (
                                             <a target="_blank" href={"https://testnet.bscscan.com/address/"+tx.to}>
-                                                {tx.to === account ? "My Account" : Wallets.ShortAddress(tx.to)}
+                                                {tx.to === account ? "My Account" : Wallets.shortAddress(tx.to)}
                                             </a>
                                         )}
                                     </td>
-                                    <td>{Wallets.WeiToEther(tx.value)} BNB</td>
+                                    <td>{Wallets.weiToEther(tx.value)} BNB</td>
                                     <td>{
                                         Math.round(
                                             (
                                                 (
-                                                    Number(Wallets.WeiToGwei(tx.gasPrice)) 
+                                                    Number(Wallets.weiToGwei(tx.gasPrice)) 
                                                     * 
-                                                    Number(Wallets.WeiToGwei(tx.gasUsed))
+                                                    Number(Wallets.weiToGwei(tx.gasUsed))
                                                 ) + Number.EPSILON
                                             ) * 1e8
                                         ) / 1e8

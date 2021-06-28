@@ -6,7 +6,7 @@ const SendETH = () => {
     const _amount = document.getElementById('input_send_eth_amount');
     const _to = document.getElementById('input_send_eth_to');
     const transfer = async () => {
-        Wallets.TransferETH(account, _to.value, _amount.value).then(() => {
+        Wallets.transferETH(account, _to.value, _amount.value).then(() => {
             _amount.value = ""
             _to.value = ""
         });
