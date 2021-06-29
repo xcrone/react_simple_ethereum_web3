@@ -166,9 +166,10 @@ function weiToGwei(_amount = 0) {
 }
 
 async function transferETH(_from, _to, _amount) {
+  const web3 = new Web3(provider);
   // should make validate _amount is number
-  _amount = window.web3.utils.toWei(_amount, 'ether');
-  window.web3.eth.sendTransaction({
+  _amount = web3.utils.toWei(_amount, 'ether');
+  web3.eth.sendTransaction({
       from: _from,
       to: _to,
       value: _amount,
