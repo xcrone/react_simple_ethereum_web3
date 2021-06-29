@@ -7,7 +7,7 @@ import timeAgo from 'time-ago'
 
 let web3Modal
 let provider;
-const apiLink = "https://api-testnet.bscscan.com/api"
+const apiLink = "https://api.bscscan.com/api"
 const apiKey = "MAMMQS6CJJ43FF8CR9WX54P1EUAUA56J2D"
 window.web3 = new Web3(window.ethereum);
 export let account = null;
@@ -83,6 +83,7 @@ async function refreshAccountData() {
 async function onConnect() {
   try {
     provider = await web3Modal.connect();
+    window.web3 = new Web3(provider);
   } catch(e) {
     console.log("Could not get a wallet connection", e);
     return;
@@ -172,7 +173,7 @@ async function transferETH(_from, _to, _amount) {
       from: _from,
       to: _to,
       value: _amount,
-  });
+  }).catch(() => console.log("cancel transfer"));
 }
 
 async function txListing(_address = null, _paginate = null) {
