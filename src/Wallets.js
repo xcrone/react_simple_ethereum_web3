@@ -83,7 +83,6 @@ async function refreshAccountData() {
 async function onConnect() {
   try {
     provider = await web3Modal.connect();
-    window.web3 = new Web3(provider);
   } catch(e) {
     console.log("Could not get a wallet connection", e);
     return;
