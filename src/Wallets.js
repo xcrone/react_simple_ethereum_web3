@@ -236,11 +236,17 @@ async function tokenInfo({
       let _symbol = await contract.methods.symbol().call((res) => res);
       let _decimals = await contract.methods.decimals().call((res) => res);
       let _totalSupply = await contract.methods.totalSupply().call((res) => res);
+      let {account} = await fetchAccountData();
+      let _balance = 0;
+      if(account !== null) {
+        _balance = await contract.methods.balanceOf(account).call((res) => res);
+      }
       return {
           name: _name,
           symbol: _symbol,
           decimals: _decimals,
           totalSupply: _totalSupply,
+          balance: _balance,
       };   
   } catch (error) {
       return null;

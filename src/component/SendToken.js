@@ -7,6 +7,7 @@ const SendToken = () => {
     let [tokenInfo, setTokenInfo] = useState({
         name: null,
         symbol: null,
+        balance: null,
     });
     const _amount = document.getElementById('input_send_token_amount');
     const _to = document.getElementById('input_send_token_to');
@@ -23,6 +24,7 @@ const SendToken = () => {
                 setTokenInfo({
                     name: null,
                     symbol: null,
+                    balance: null,
                 });
             }
         });
@@ -56,6 +58,7 @@ const SendToken = () => {
                 <hr />
                 Name: {tokenInfo.name}<br />
                 Symbol: {tokenInfo.symbol}<br />
+                Balance: {tokenInfo.balance}<br />
                 <hr />
                 Amount:
                 <input id="input_send_token_amount" className="form-control" type="text" placeholder="Token" />
