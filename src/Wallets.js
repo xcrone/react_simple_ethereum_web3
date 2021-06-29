@@ -9,6 +9,7 @@ let web3Modal
 let provider;
 const apiLink = "https://api.bscscan.com/api"
 const apiKey = "MAMMQS6CJJ43FF8CR9WX54P1EUAUA56J2D"
+window.web3 = new Web3(window.ethereum);
 export let account = null;
 export let chainId = null;
 export let status = false;
@@ -150,8 +151,7 @@ function epochToTimeAgo(_epoch) {
 
 function weiToEther(_amount = 0) {
   try {
-    const web3 = new Web3(provider);
-    return web3.utils.fromWei(_amount, 'ether');
+    return window.web3.utils.fromWei(_amount, 'ether');
   } catch (error) {
     return 0;
   }
@@ -159,18 +159,16 @@ function weiToEther(_amount = 0) {
 
 function weiToGwei(_amount = 0) {
   try {
-    const web3 = new Web3(provider);
-    return web3.utils.fromWei(_amount, 'Gwei');
+    return window.web3.utils.fromWei(_amount, 'Gwei');
   } catch (error) {
     return 0;
   }
 }
 
 async function transferETH(_from, _to, _amount) {
-  const web3 = new Web3(provider);
   // should make validate _amount is number
-  _amount = web3.utils.toWei(_amount, 'ether');
-  web3.eth.sendTransaction({
+  _amount = window.web3.utils.toWei(_amount, 'ether');
+  window.web3.eth.sendTransaction({
       from: _from,
       to: _to,
       value: _amount,
@@ -199,7 +197,6 @@ async function txListing(_address = null, _paginate = null) {
 async function getContract(_address = null, _abi = null) {
   let _contract;
   try {
-    const web3 = new Web3(provider);
       if (_address !== null && _address !== "") {
           if (_abi === null) {
               let res = await axios.get(apiLink + "?module=contract&action=getabi&address=" + _address + "&apikey=" + apiKey)
@@ -210,7 +207,7 @@ async function getContract(_address = null, _abi = null) {
           if(typeof(_abi) === typeof("")) {
               _abi = JSON.parse(_abi);
           }
-          _contract = new web3.eth.Contract(_abi, _address);
+          _contract = new window.web3.eth.Contract(_abi, _address);
           return _contract;
       }else {
           return null
@@ -254,11 +251,10 @@ async function tokenTransfer({
   amount = null
 }) {
   try {
-      const web3 = new Web3(provider);
       if (!contract) {
         contract = await getContract(address, abi); 
       }
-      amount = web3.utils.toWei(amount, 'ether');
+      amount = window.web3.utils.toWei(amount, 'ether');
       await contract.methods.transfer(to, amount).send({ from: from });
   } catch (error) {
       alert("Something wrong: ", error);
