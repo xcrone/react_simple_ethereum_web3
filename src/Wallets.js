@@ -165,15 +165,19 @@ function weiToGwei(_amount = 0) {
   }
 }
 
-async function transferETH(_from, _to, _amount) {
-  const web3 = new Web3(provider);
-  // should make validate _amount is number
-  _amount = web3.utils.toWei(_amount, 'ether');
-  web3.eth.sendTransaction({
-      from: _from,
-      to: _to,
-      value: _amount,
-  }).catch(() => console.log("cancel transfer"));
+async function transferETH(_from, _to, _amount = 0) {
+  try {
+    const web3 = new Web3(provider);
+    // should make validate _amount is number
+    _amount = web3.utils.toWei(_amount, 'ether');
+    web3.eth.sendTransaction({
+        from: _from,
+        to: _to,
+        value: _amount,
+    }).catch(() => console.log("cancel transfer"));
+  } catch (error) {
+    console.log("something wrong");
+  }
 }
 
 async function txListing(_address = null, _paginate = null) {
