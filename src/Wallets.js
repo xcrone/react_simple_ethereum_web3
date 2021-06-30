@@ -212,7 +212,8 @@ async function getContract(_address = null, _abi = null) {
           if(typeof(_abi) === typeof("")) {
               _abi = JSON.parse(_abi);
           }
-          _contract = new window.web3.eth.Contract(_abi, _address);
+          const web3 = new Web3(provider);
+          _contract = new web3.eth.Contract(_abi, _address);
           return _contract;
       }else {
           return null
