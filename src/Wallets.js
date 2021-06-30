@@ -17,23 +17,23 @@ export let balance = 0;
 const WalletsContext = createContext({});
 
 function init() {
+  const network = ["mainnet", "binance"];
+
   const providerOptions = {
     walletconnect: {
       package: WalletConnectProvider,
       options: {
-        rpc: {
-          1: "https://mainnet.infura.io/v3/847d1860447a4c31a68d79c87b461bd1",
-          3: "https://ropsten.infura.io/v3/847d1860447a4c31a68d79c87b461bd1",
-          56: "https://bsc-dataseed.binance.org/",
-          97: "https://data-seed-prebsc-1-s1.binance.org:8545/",
-        },
         infuraId: "847d1860447a4c31a68d79c87b461bd1",
+        rpc: {
+          56: 'https://bsc-dataseed.binance.org/'
+        },
+        network: 'binance',
       },
     },
   };
 
   web3Modal = new Web3Modal({
-    network: "binance",
+    network: network[1],
     cacheProvider: true,
     providerOptions,
     disableInjectedProvider: false,
