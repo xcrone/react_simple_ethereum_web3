@@ -96,10 +96,6 @@ async function onConnect() {
     fetchAccountData();
   });
 
-  provider.on("networkChanged", (networkId) => {
-    fetchAccountData();
-  });
-
   return await refreshAccountData();
 }
 
